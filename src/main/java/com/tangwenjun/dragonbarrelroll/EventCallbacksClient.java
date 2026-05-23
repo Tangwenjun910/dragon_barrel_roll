@@ -75,8 +75,8 @@ public class EventCallbacksClient {
 
         var matrices = context.pose();
         var entity = Minecraft.getInstance().getCameraEntity();
-        var rollEntity = ((RollEntity) entity);
         if (entity != null) {
+            var rollEntity = (RollEntity) entity;
             if (ModConfig.INSTANCE.getShowHorizon()) {
                 HorizonLineWidget.render(matrices, scaledWidth, scaledHeight,
                         rollEntity.doABarrelRoll$getRoll(tickDelta), entity.getViewVector(tickDelta).x);

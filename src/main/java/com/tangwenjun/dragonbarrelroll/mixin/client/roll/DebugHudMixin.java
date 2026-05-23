@@ -17,7 +17,7 @@ public abstract class DebugHudMixin {
 
     // Not using ModifyArg**s** here to be compatible with Forge
     @ModifyArg(
-            method = "getLeftText",
+            method = "getGameInformation",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/lang/String;format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;",
@@ -28,7 +28,7 @@ public abstract class DebugHudMixin {
     )
     private String doABarrelRoll$modifyDebugHudText(String format) {
         var cameraEntity = minecraft.getCameraEntity();
-        if (cameraEntity == null) return null;
+        if (cameraEntity == null) return format;
 
         // Carefully insert a new number format specifier into the facing string
         var firstHalf = format.substring(0, format.length() - 1);
@@ -37,7 +37,7 @@ public abstract class DebugHudMixin {
     }
 
     @ModifyArg(
-            method = "getLeftText",
+            method = "getGameInformation",
             at = @At(
                     value = "INVOKE",
                     target = "Ljava/lang/String;format(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;",

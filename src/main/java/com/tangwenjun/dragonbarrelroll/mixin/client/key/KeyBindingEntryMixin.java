@@ -10,27 +10,20 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(KeyBindsList.Entry.class)
+@Mixin(KeyBindsList.KeyEntry.class)
 public abstract class KeyBindingEntryMixin {
     @Shadow @Final private KeyMapping key;
 
     @ModifyExpressionValue(
-            method = "update",
+            method = "refreshEntry",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/KeyMapping;equals(Lnet/minecraft/client/KeyMapping;)Z"
+                    target = "Lnet/minecraft/client/KeyMapping;same(Lnet/minecraft/client/KeyMapping;)Z"
             )
     )
     private boolean doABarrelRoll$ignoreCertainKeyBindingConflicts(boolean original, @Local KeyMapping otherBinding) {
         var firstContexts = ((ContextualKeyBinding) key).doABarrelRoll$getContexts();
         var secondContexts = ((ContextualKeyBinding) otherBinding).doABarrelRoll$getContexts();
-
-        // none + none -> original
-        // none + has -> false
-        // has + none -> false
-        // has + has ->
-        //   same context -> original
-        //   different context -> false
 
         if (firstContexts.isEmpty() && secondContexts.isEmpty()) return original;
         if (firstContexts.isEmpty() || secondContexts.isEmpty()) return false;

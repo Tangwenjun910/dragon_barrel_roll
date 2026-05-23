@@ -4,24 +4,17 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import com.tangwenjun.dragonbarrelroll.config.ModConfigScreen;
 
 @Mod(DoABarrelRoll.MODID)
 public class DoABarrelRollInitializer {
     public DoABarrelRollInitializer(ModContainer container) {
         DoABarrelRoll.init();
 
-        if (FMLLoader.getDist().isClient()) {
-            DoABarrelRollClient.init();
-        }
-
-        // 注册客户端配置文件
+        // 注册客户端配置文件（服务端不会报错，NeoForge 会忽略客户端配置）
         container.registerConfig(ModConfig.Type.CLIENT, com.tangwenjun.dragonbarrelroll.config.ModConfig.SPEC);
-        // 注册自定义配置屏幕
-        container.registerExtensionPoint(
-                IConfigScreenFactory.class,
-                (modContainer, screen) -> new ModConfigScreen(screen)
-        );
+
+        if (FMLLoader.getDist().isClient()) {
+            DoABarrelRollClient.init(container);
+        }
     }
 }

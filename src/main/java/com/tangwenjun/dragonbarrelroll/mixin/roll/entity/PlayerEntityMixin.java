@@ -17,7 +17,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin {
     @Unique
     protected float roll;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("do_a_barrel_roll");
+    private static final Logger LOGGER = LoggerFactory.getLogger("dragon_barrel_roll");
 
     @Override
     protected void doABarrelRoll$baseTickTail(CallbackInfo ci) {

@@ -13,53 +13,53 @@ import java.util.List;
 public class ModKeybindings {
 
     public static final KeyMapping TOGGLE_ENABLED = new KeyMapping(
-            "key.do_a_barrel_roll.toggle_enabled",
+            "key.dragon_barrel_roll.toggle_enabled",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_I,
-            "category.do_a_barrel_roll.do_a_barrel_roll"
+            "category.dragon_barrel_roll.dragon_barrel_roll"
     );
     public static final KeyMapping OPEN_CONFIG = new KeyMapping(
-            "key.do_a_barrel_roll.open_config",
+            "key.dragon_barrel_roll.open_config",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
-            "category.do_a_barrel_roll.do_a_barrel_roll"
+            "category.dragon_barrel_roll.dragon_barrel_roll"
     );
 
     public static final KeyMapping PITCH_UP = new KeyMapping(
-            "key.do_a_barrel_roll.pitch_up",
+            "key.dragon_barrel_roll.pitch_up",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
-            "category.do_a_barrel_roll.do_a_barrel_roll.movement"
+            "category.dragon_barrel_roll.dragon_barrel_roll.movement"
     );
     public static final KeyMapping PITCH_DOWN = new KeyMapping(
-            "key.do_a_barrel_roll.pitch_down",
+            "key.dragon_barrel_roll.pitch_down",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
-            "category.do_a_barrel_roll.do_a_barrel_roll.movement"
+            "category.dragon_barrel_roll.dragon_barrel_roll.movement"
     );
     public static final KeyMapping YAW_LEFT = new KeyMapping(
-            "key.do_a_barrel_roll.yaw_left",
+            "key.dragon_barrel_roll.yaw_left",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_A,
-            "category.do_a_barrel_roll.do_a_barrel_roll.movement"
+            "category.dragon_barrel_roll.dragon_barrel_roll.movement"
     );
     public static final KeyMapping YAW_RIGHT = new KeyMapping(
-            "key.do_a_barrel_roll.yaw_right",
+            "key.dragon_barrel_roll.yaw_right",
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_D,
-            "category.do_a_barrel_roll.do_a_barrel_roll.movement"
+            "category.dragon_barrel_roll.dragon_barrel_roll.movement"
     );
     public static final KeyMapping ROLL_LEFT = new KeyMapping(
-            "key.do_a_barrel_roll.roll_left",
+            "key.dragon_barrel_roll.roll_left",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
-            "category.do_a_barrel_roll.do_a_barrel_roll.movement"
+            "category.dragon_barrel_roll.dragon_barrel_roll.movement"
     );
     public static final KeyMapping ROLL_RIGHT = new KeyMapping(
-            "key.do_a_barrel_roll.roll_right",
+            "key.dragon_barrel_roll.roll_right",
             InputConstants.Type.KEYSYM,
             InputConstants.UNKNOWN.getValue(),
-            "category.do_a_barrel_roll.do_a_barrel_roll.movement"
+            "category.dragon_barrel_roll.dragon_barrel_roll.movement"
     );
 
     public static final List<KeyMapping> ALL = List.of(
@@ -94,7 +94,7 @@ public class ModKeybindings {
             if (client.player != null) {
                 client.player.displayClientMessage(
                         Component.translatable(
-                                "key.do_a_barrel_roll." +
+                                "key.dragon_barrel_roll." +
                                         (ModConfig.INSTANCE.getModEnabled() ? "toggle_enabled.enable" : "toggle_enabled.disable")
                         ),
                         true

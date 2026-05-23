@@ -92,17 +92,19 @@
   "config.dragon_barrel_roll.rudderEfficacyFormula": "方向舵效能",
   "config.dragon_barrel_roll.rudderEfficacyFormula.tooltip": "方向舵控制面效能公式。",
 
-  "category.do_a_barrel_roll.do_a_barrel_roll": "龙桶滚",
-  "category.do_a_barrel_roll.do_a_barrel_roll.movement": "龙桶滚 移动",
+  "category.dragon_barrel_roll.dragon_barrel_roll": "龙桶滚",
+  "category.dragon_barrel_roll.dragon_barrel_roll.movement": "龙桶滚 移动",
 
-  "key.do_a_barrel_roll.toggle_enabled": "切换启用",
-  "key.do_a_barrel_roll.toggle_enabled.enable": "§a龙桶滚: 已启用",
-  "key.do_a_barrel_roll.toggle_enabled.disable": "§c龙桶滚: 已禁用",
-  "key.do_a_barrel_roll.open_config": "打开配置",
-  "key.do_a_barrel_roll.pitch_up": "俯仰向上",
-  "key.do_a_barrel_roll.pitch_down": "俯仰向下",
-  "key.do_a_barrel_roll.yaw_left": "偏航向左",
-  "key.do_a_barrel_roll.yaw_right": "偏航向右",
-  "key.do_a_barrel_roll.roll_left": "滚转向左",
-  "key.do_a_barrel_roll.roll_right": "滚转向右"
+  "key.dragon_barrel_roll.toggle_enabled": "切换启用",
+  "key.dragon_barrel_roll.toggle_enabled.enable": "§a龙桶滚: 已启用",
+  "key.dragon_barrel_roll.toggle_enabled.disable": "§c龙桶滚: 已禁用",
+  "key.dragon_barrel_roll.open_config": "打开配置",
+  "key.dragon_barrel_roll.pitch_up": "俯仰向上",
+  "key.dragon_barrel_roll.pitch_down": "俯仰向下",
+  "key.dragon_barrel_roll.yaw_left": "偏航向左",
+  "key.dragon_barrel_roll.yaw_right": "偏航向右",
+  "key.dragon_barrel_roll.roll_left": "滚转向左",
+  "key.dragon_barrel_roll.roll_right": "滚转向右",
+
+  "toast.dragon_barrel_roll": "龙桶滚"
 }

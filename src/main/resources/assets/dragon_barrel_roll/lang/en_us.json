@@ -92,17 +92,19 @@
   "config.dragon_barrel_roll.rudderEfficacyFormula": "Rudder Efficacy",
   "config.dragon_barrel_roll.rudderEfficacyFormula.tooltip": "Formula for rudder control surface efficacy.",
 
-  "category.do_a_barrel_roll.do_a_barrel_roll": "Dragon Barrel Roll",
-  "category.do_a_barrel_roll.do_a_barrel_roll.movement": "Dragon Barrel Roll Movement",
+  "category.dragon_barrel_roll.dragon_barrel_roll": "Dragon Barrel Roll",
+  "category.dragon_barrel_roll.dragon_barrel_roll.movement": "Dragon Barrel Roll Movement",
 
-  "key.do_a_barrel_roll.toggle_enabled": "Toggle Enabled",
-  "key.do_a_barrel_roll.toggle_enabled.enable": "§aDragon Barrel Roll: Enabled",
-  "key.do_a_barrel_roll.toggle_enabled.disable": "§cDragon Barrel Roll: Disabled",
-  "key.do_a_barrel_roll.open_config": "Open Config",
-  "key.do_a_barrel_roll.pitch_up": "Pitch Up",
-  "key.do_a_barrel_roll.pitch_down": "Pitch Down",
-  "key.do_a_barrel_roll.yaw_left": "Yaw Left",
-  "key.do_a_barrel_roll.yaw_right": "Yaw Right",
-  "key.do_a_barrel_roll.roll_left": "Roll Left",
-  "key.do_a_barrel_roll.roll_right": "Roll Right"
+  "key.dragon_barrel_roll.toggle_enabled": "Toggle Enabled",
+  "key.dragon_barrel_roll.toggle_enabled.enable": "§aDragon Barrel Roll: Enabled",
+  "key.dragon_barrel_roll.toggle_enabled.disable": "§cDragon Barrel Roll: Disabled",
+  "key.dragon_barrel_roll.open_config": "Open Config",
+  "key.dragon_barrel_roll.pitch_up": "Pitch Up",
+  "key.dragon_barrel_roll.pitch_down": "Pitch Down",
+  "key.dragon_barrel_roll.yaw_left": "Yaw Left",
+  "key.dragon_barrel_roll.yaw_right": "Yaw Right",
+  "key.dragon_barrel_roll.roll_left": "Roll Left",
+  "key.dragon_barrel_roll.roll_right": "Roll Right",
+
+  "toast.dragon_barrel_roll": "Dragon Barrel Roll"
 }

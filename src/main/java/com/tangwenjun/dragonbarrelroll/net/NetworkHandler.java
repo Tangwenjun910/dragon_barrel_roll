@@ -9,7 +9,7 @@ import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
  * Registers network packets for Dragon Barrel Roll.
  * Follows DragonSurvival's pattern: EventBusSubscriber listening to RegisterPayloadHandlersEvent.
  */
-@EventBusSubscriber
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class NetworkHandler {
     private static final String PROTOCOL_VERSION = "1";
 
