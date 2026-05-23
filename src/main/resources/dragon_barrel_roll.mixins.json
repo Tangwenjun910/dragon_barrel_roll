@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.tangwenjun.dragonbarrelroll.mixin",
+  "refmap": "dragon_barrel_roll.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "roll.entity.EntityMixin",
+    "roll.entity.LivingEntityMixin",
+    "roll.entity.PlayerEntityMixin"
+  ],
+  "client": [
+    "PassengerAttachmentMixin",
+    "client.DragonRendererMixin",
+    "client.InGameHudMixin",
+    "client.key.KeyBindingAccessor",
+    "client.key.KeyBindingEntryMixin",
+    "client.key.KeyBindingMixin",
+    "client.roll.CameraMixin",
+    "client.roll.DebugHudMixin",
+    "client.roll.MouseMixin",
+    "client.roll.PlayerEntityRendererMixin",
+    "client.roll.entity.ClientPlayerEntityMixin"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
