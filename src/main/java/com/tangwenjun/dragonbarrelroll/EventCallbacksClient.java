@@ -41,7 +41,7 @@ public class EventCallbacksClient {
             // Just stopped flying — send a final cleanup packet to reset tilt on remote clients
             if (wasFlying && (lastSyncedRoll != 0 || lastSyncedPitch != 0)) {
                 var player = client.player;
-                if (player != null) {
+                if (player != null && client.getConnection() != null) {
                     PacketDistributor.sendToServer(new SyncDragonRoll(player.getId(), 0, 0, 0));
                 }
                 lastSyncedRoll = 0;
@@ -66,7 +66,9 @@ public class EventCallbacksClient {
 
         lastSyncedRoll = roll;
         lastSyncedPitch = pitch;
-        PacketDistributor.sendToServer(new SyncDragonRoll(player.getId(), roll, pitch, yaw));
+        if (client.getConnection() != null) {
+            PacketDistributor.sendToServer(new SyncDragonRoll(player.getId(), roll, pitch, yaw));
+        }
     }
 
     public static void onRenderCrosshair(GuiGraphics context, DeltaTracker tickCounter, int scaledWidth, int scaledHeight) {
