@@ -18,7 +18,8 @@ public class NetworkHandler {
         var registrar = event.registrar(PROTOCOL_VERSION);
 
         // Bidirectional: client→server (store+broadcast), server→client (store for rendering)
-        registrar.playBidirectional(
+        // Marked optional: clients/servers without this mod can still connect
+        registrar.optional().playBidirectional(
                 SyncDragonRoll.TYPE,
                 SyncDragonRoll.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(SyncDragonRoll::handleClient, SyncDragonRoll::handleServer)
