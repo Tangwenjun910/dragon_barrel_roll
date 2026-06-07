@@ -4,11 +4,14 @@ import by.dragonsurvivalteam.dragonsurvival.registry.attachments.FlightData;
 import by.dragonsurvivalteam.dragonsurvival.server.handlers.ServerFlightHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.SmoothDouble;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 import com.tangwenjun.dragonbarrelroll.api.event.RollEvents;
 import com.tangwenjun.dragonbarrelroll.api.event.RollGroup;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
+import com.tangwenjun.dragonbarrelroll.config.ModConfigScreen;
 import com.tangwenjun.dragonbarrelroll.flight.RotationModifiers;
 
 public class DoABarrelRollClient {
@@ -17,7 +20,7 @@ public class DoABarrelRollClient {
     public static final SmoothDouble ROLL_SMOOTHER = new SmoothDouble();
     public static final RollGroup FALL_FLYING_GROUP = RollGroup.of(DoABarrelRoll.id("fall_flying"));
 
-    public static void init() {
+    public static void init(ModContainer container) {
         FALL_FLYING_GROUP.trueIf(DoABarrelRollClient::isFallFlying);
 
         // Keyboard modifiers
@@ -45,6 +48,12 @@ public class DoABarrelRollClient {
         NeoForge.EVENT_BUS.addListener(ClientTickEvent.Post.class, event -> {
             EventCallbacksClient.clientTick(Minecraft.getInstance());
         });
+
+        // Register custom config screen (client-only, safe from server classloading)
+        container.registerExtensionPoint(
+                IConfigScreenFactory.class,
+                (modContainer, screen) -> new ModConfigScreen(screen)
+        );
     }
 
     public static void clearValues() {
