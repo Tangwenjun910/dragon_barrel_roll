@@ -41,7 +41,7 @@ public class EventCallbacksClient {
             // Just stopped flying — send a final cleanup packet to reset tilt on remote clients
             if (wasFlying && (lastSyncedRoll != 0 || lastSyncedPitch != 0)) {
                 var player = client.player;
-                if (player != null && client.getConnection() != null) {
+                if (player != null && client.getConnection() != null && client.getConnection().hasChannel(SyncDragonRoll.TYPE)) {
                     PacketDistributor.sendToServer(new SyncDragonRoll(player.getId(), 0, 0, 0));
                 }
                 lastSyncedRoll = 0;
@@ -66,7 +66,7 @@ public class EventCallbacksClient {
 
         lastSyncedRoll = roll;
         lastSyncedPitch = pitch;
-        if (client.getConnection() != null) {
+        if (client.getConnection() != null && client.getConnection().hasChannel(SyncDragonRoll.TYPE)) {
             PacketDistributor.sendToServer(new SyncDragonRoll(player.getId(), roll, pitch, yaw));
         }
     }
