@@ -9,13 +9,8 @@ displayName="${mod_name}"
 authors="Tangwenjun"
 logoFile ="${mod_id}.png"
 description='''
-Dragon Barrel Roll adds barrel roll mechanics to Dragon Survival flight.
-
-Fly like a fighter jet — pitch, yaw, and roll freely in the air with full 6-DOF camera control. Features momentum-based mouse steering, keyboard flight controls, customizable banking effects, and optional horizon/momentum HUD widgets. Synchronizes roll/pitch/yaw to the dragon model for other players in multiplayer.
-
-Optional server-side: clients can join servers without this mod, only losing sync visuals.
-
-为龙之生存的飞行添加桶滚机制，像战斗机一样自由俯仰、偏航、滚转。
+为龙之生存添加桶滚飞行机制——俯仰、偏航、滚转，像战斗机一样自由飞翔。
+Adds barrel roll flight mechanics to Dragon Survival — pitch, yaw, and roll freely like a fighter jet.
 '''
 [[mixins]]
     config="${mod_id}.mixins.json"
