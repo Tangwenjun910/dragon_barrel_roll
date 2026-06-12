@@ -6,10 +6,15 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.network.chat.Component;
 import com.tangwenjun.dragonbarrelroll.api.key.InputContext;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
+@EventBusSubscriber(modid = DoABarrelRoll.MODID, value = Dist.CLIENT)
 public class ModKeybindings {
 
     public static final KeyMapping TOGGLE_ENABLED = new KeyMapping(
@@ -85,6 +90,13 @@ public class ModKeybindings {
         CONTEXT.addKeyBinding(YAW_RIGHT);
         CONTEXT.addKeyBinding(ROLL_LEFT);
         CONTEXT.addKeyBinding(ROLL_RIGHT);
+    }
+
+    @SubscribeEvent
+    public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        for (KeyMapping keyMapping : ALL) {
+            event.register(keyMapping);
+        }
     }
 
     public static void clientTick(Minecraft client) {
