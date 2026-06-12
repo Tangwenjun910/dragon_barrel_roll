@@ -10,15 +10,15 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(KeyBindsList.Entry.class)
+@Mixin(KeyBindsList.KeyEntry.class)
 public abstract class KeyBindingEntryMixin {
     @Shadow @Final private KeyMapping key;
 
     @ModifyExpressionValue(
-            method = "update",
+            method = "refreshEntry",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/KeyMapping;equals(Lnet/minecraft/client/KeyMapping;)Z"
+                    target = "Lnet/minecraft/client/KeyMapping;same(Lnet/minecraft/client/KeyMapping;)Z"
             )
     )
     private boolean doABarrelRoll$ignoreCertainKeyBindingConflicts(boolean original, @Local KeyMapping otherBinding) {
