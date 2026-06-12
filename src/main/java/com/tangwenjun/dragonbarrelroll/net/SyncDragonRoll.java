@@ -6,9 +6,12 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.Entity;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import org.jetbrains.annotations.NotNull;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,6 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Client→Server: stores roll/pitch in independent maps, broadcasts to tracking clients.
  * Server→Client: stores in independent maps for DragonRenderer/PassengerAttachmentMixin.
  */
+@EventBusSubscriber
 public record SyncDragonRoll(int playerId, float roll, float pitch, float yaw) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<SyncDragonRoll> TYPE =
             new CustomPacketPayload.Type<>(DoABarrelRoll.id("sync_dragon_roll"));
@@ -31,6 +35,13 @@ public record SyncDragonRoll(int playerId, float roll, float pitch, float yaw) i
     /** Independent storage for synced barrel roll data, isolated from DragonSurvival's MovementData. */
     private static final ConcurrentHashMap<Integer, Float> syncedRollDeg = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<Integer, Float> syncedPitch = new ConcurrentHashMap<>();
+
+    @SubscribeEvent
+    public static void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
+        int id = event.getEntity().getId();
+        syncedRollDeg.remove(id);
+        syncedPitch.remove(id);
+    }
 
     public static float getSyncedRollDeg(int playerId) {
         return syncedRollDeg.getOrDefault(playerId, 0f);

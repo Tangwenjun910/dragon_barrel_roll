@@ -118,7 +118,9 @@ public class RotationModifiers {
 
     private static Map<String, Double> getVars(RollContext context) {
         var player = Minecraft.getInstance().player;
-        assert player != null;
+        if (player == null) {
+            return new HashMap<>();
+        }
 
         var currentRotation = context.getCurrentRotation();
         var rotationVector = player.getLookAngle();
