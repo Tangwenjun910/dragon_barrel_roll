@@ -1,7 +1,6 @@
 package com.tangwenjun.dragonbarrelroll.mixin.client.roll;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.logging.LogUtils;
 import com.mojang.math.Axis;
 import com.tangwenjun.dragonbarrelroll.api.RollEntity;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
@@ -14,7 +13,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 
 import org.joml.Quaternionf;
-import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(PlayerRenderer.class)
 public abstract class PlayerEntityRendererMixin {
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     /**
      * Local player actively barrel rolling (elytra branch): replace the elytra
@@ -103,8 +100,5 @@ public abstract class PlayerEntityRendererMixin {
                 .rotateX(-(float) Math.toRadians(syncedPitch))
                 .rotateZ(-(float) Math.toRadians(syncedRoll)));
 
-        // DEBUG: verify yaw correction
-        LOGGER.info("[DBR] RiderTilt: roll={} pitch={} yawCorr={} riderBYaw={} dragonBYaw={}",
-                syncedRoll, syncedPitch, yawCorrection, yBodyRot, dragonBodyYaw);
     }
 }

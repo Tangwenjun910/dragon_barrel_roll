@@ -78,9 +78,6 @@ public class DragonRendererMixin {
             Vec3 rel = new Vec3(worldPos.x() - entityPos.x, worldPos.y() - entityPos.y, worldPos.z() - entityPos.z);
             Player player = animatable.getPlayer();
             if (player != null) {
-                System.out.printf("[DBR] BONE: pid=%d boneWorld=(%.2f,%.2f,%.2f) entity=(%.2f,%.2f,%.2f) rel=(%.2f,%.2f,%.2f)%n",
-                        player.getId(), worldPos.x(), worldPos.y(), worldPos.z(),
-                        entityPos.x, entityPos.y, entityPos.z, rel.x, rel.y, rel.z);
                 MountingBoneTracker.store(player.getId(), rel);
             }
         });
