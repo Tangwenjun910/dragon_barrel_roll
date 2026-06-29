@@ -1,6 +1,7 @@
 package com.tangwenjun.dragonbarrelroll.mixin.client;
 
 import by.dragonsurvivalteam.dragonsurvival.client.render.entity.dragon.DragonRenderer;
+import by.dragonsurvivalteam.dragonsurvival.common.capability.DragonStateProvider;
 import by.dragonsurvivalteam.dragonsurvival.common.entity.DragonEntity;
 import by.dragonsurvivalteam.dragonsurvival.registry.attachments.FlightData;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -29,6 +30,10 @@ public class DragonRendererMixin {
 
         if (player instanceof LocalPlayer localPlayer) {
             // === Local player: read live roll/pitch from RollEntity interface ===
+            if (!DragonStateProvider.isDragon(localPlayer)) {
+                return;
+            }
+
             FlightData data = FlightData.getData(localPlayer);
             if (data == null || !data.isWingsSpread() || !data.hasFlight() || localPlayer.onGround()) {
                 return;

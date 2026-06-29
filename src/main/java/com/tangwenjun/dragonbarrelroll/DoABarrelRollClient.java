@@ -1,5 +1,6 @@
 package com.tangwenjun.dragonbarrelroll;
 
+import by.dragonsurvivalteam.dragonsurvival.common.capability.DragonStateProvider;
 import by.dragonsurvivalteam.dragonsurvival.registry.attachments.FlightData;
 import by.dragonsurvivalteam.dragonsurvival.server.handlers.ServerFlightHandler;
 import net.minecraft.client.Minecraft;
@@ -76,6 +77,10 @@ public class DoABarrelRollClient {
         }
 
         // Dragon flight detection
+        if (!DragonStateProvider.isDragon(player)) {
+            return false;
+        }
+
         FlightData flightData = FlightData.getData(player);
         boolean isDragonFlying = flightData != null && flightData.isWingsSpread() && flightData.hasFlight() && !player.onGround();
         if (!isDragonFlying) {
