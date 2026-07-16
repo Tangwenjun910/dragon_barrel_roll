@@ -8,8 +8,8 @@ public class ToastUtil {
     public static void toasty(String key) {
         Minecraft.getInstance().getToasts().addToast(new SystemToast(
                 SystemToast.SystemToastId.PERIODIC_NOTIFICATION,
-                Component.translatable("toast.do_a_barrel_roll"),
-                Component.translatable("toast.do_a_barrel_roll." + key)
+                Component.translatable("toast.dragon_barrel_roll"),
+                Component.translatable("toast.dragon_barrel_roll." + key)
         ));
     }
 }

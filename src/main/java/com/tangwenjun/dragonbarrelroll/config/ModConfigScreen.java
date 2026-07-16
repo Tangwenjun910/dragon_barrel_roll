@@ -360,11 +360,13 @@ public class ModConfigScreen extends Screen {
                     scrollbarDragging ? 0xFFAAAAAA : 0x88FFFFFF);
         }
 
-        // ── Tooltip ──
-        for (var sw : scrollWidgets) {
-            if (sw.tooltipKey != null && sw.widget.isMouseOver(mouseX, mouseY)) {
-                graphics.renderTooltip(this.font, Component.translatable(sw.tooltipKey), mouseX, mouseY);
-                break;
+        // ── Tooltip (only within visible clip area) ──
+        if (mouseY >= CLIP_TOP && mouseY <= clipBottom) {
+            for (var sw : scrollWidgets) {
+                if (sw.tooltipKey != null && sw.widget.isMouseOver(mouseX, mouseY)) {
+                    graphics.renderTooltip(this.font, Component.translatable(sw.tooltipKey), mouseX, mouseY);
+                    break;
+                }
             }
         }
 
@@ -439,7 +441,11 @@ public class ModConfigScreen extends Screen {
                 return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        // Only let super handle clicks within the clip area
+        if (mouseY >= CLIP_TOP && mouseY <= clipBottom) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+        return false;
     }
 
     @Override
@@ -463,7 +469,11 @@ public class ModConfigScreen extends Screen {
         if (resetAllButton.isMouseOver(mouseX, mouseY)) {
             return resetAllButton.mouseReleased(mouseX, mouseY, button);
         }
-        return super.mouseReleased(mouseX, mouseY, button);
+        // Only let super handle releases within the clip area
+        if (mouseY >= CLIP_TOP && mouseY <= clipBottom) {
+            return super.mouseReleased(mouseX, mouseY, button);
+        }
+        return false;
     }
 
     @Override
@@ -472,14 +482,20 @@ public class ModConfigScreen extends Screen {
             scrollbarDragTo(mouseY);
             return true;
         }
-        for (var sw : scrollWidgets) {
-            if (sw.widget.isFocused() && sw.widget instanceof SliderWidget) {
-                if (sw.widget.mouseDragged(mouseX, mouseY, button, dragX, dragY)) {
-                    return true;
+        if (mouseY >= CLIP_TOP && mouseY <= clipBottom) {
+            for (var sw : scrollWidgets) {
+                if (sw.widget.isFocused() && sw.widget instanceof SliderWidget) {
+                    if (sw.widget.mouseDragged(mouseX, mouseY, button, dragX, dragY)) {
+                        return true;
+                    }
                 }
             }
         }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        // Only let super handle drags within the clip area
+        if (mouseY >= CLIP_TOP && mouseY <= clipBottom) {
+            return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
+        }
+        return false;
     }
 
     // ── Reset All ──
