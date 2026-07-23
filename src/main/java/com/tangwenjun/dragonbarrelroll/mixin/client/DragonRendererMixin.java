@@ -6,7 +6,7 @@ import by.dragonsurvivalteam.dragonsurvival.common.entity.DragonEntity;
 import by.dragonsurvivalteam.dragonsurvival.registry.attachments.FlightData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.tangwenjun.dragonbarrelroll.api.RollEntity;
+import com.tangwenjun.dragonbarrelroll.api.DragonRoll;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
 import com.tangwenjun.dragonbarrelroll.net.SyncDragonRoll;
 import com.tangwenjun.dragonbarrelroll.util.MountingBoneTracker;
@@ -40,7 +40,7 @@ public class DragonRendererMixin {
             }
 
             if (ModConfig.INSTANCE.syncRoll.get()) {
-                float rollDeg = ((RollEntity) localPlayer).doABarrelRoll$getRoll(partialTick);
+                float rollDeg = ((DragonRoll) localPlayer).dragon_barrel_roll$getRoll(partialTick);
                 dragon.prevZRot = (float) Math.toRadians(rollDeg);
             }
 

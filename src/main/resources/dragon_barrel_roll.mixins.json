@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "com.tangwenjun.dragonbarrelroll.mixin",
   "refmap": "dragon_barrel_roll.refmap.json",
+  "plugin": "com.tangwenjun.dragonbarrelroll.compat.DABRCompatPlugin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "roll.entity.EntityMixin",

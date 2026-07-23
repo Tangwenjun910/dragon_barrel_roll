@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import com.tangwenjun.dragonbarrelroll.api.RollEntity;
+import com.tangwenjun.dragonbarrelroll.api.DragonRoll;
 
 @Mixin(DebugScreenOverlay.class)
 public abstract class DebugHudMixin {
@@ -26,7 +26,7 @@ public abstract class DebugHudMixin {
             index = 1,
             require = 0
     )
-    private String doABarrelRoll$modifyDebugHudText(String format) {
+    private String dragon_barrel_roll$modifyDebugHudText(String format) {
         var cameraEntity = minecraft.getCameraEntity();
         if (cameraEntity == null) return null;
 
@@ -46,12 +46,12 @@ public abstract class DebugHudMixin {
             index = 2,
             require = 0
     )
-    private Object[] doABarrelRoll$modifyDebugHudText2(Object[] args) {
+    private Object[] dragon_barrel_roll$modifyDebugHudText2(Object[] args) {
         var cameraEntity = minecraft.getCameraEntity();
         if (cameraEntity == null) return args;
 
         // Add the roll value to the format arguments
-        var roll = ((RollEntity) minecraft.getCameraEntity()).doABarrelRoll$getRoll();
+        var roll = ((DragonRoll) minecraft.getCameraEntity()).dragon_barrel_roll$getRoll();
         var newFmtArgs = new Object[args.length + 1];
         System.arraycopy(args, 0, newFmtArgs, 0, args.length);
         newFmtArgs[args.length] = roll;

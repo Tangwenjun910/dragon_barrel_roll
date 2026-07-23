@@ -4,7 +4,7 @@ import by.dragonsurvivalteam.dragonsurvival.common.capability.DragonStateProvide
 import by.dragonsurvivalteam.dragonsurvival.registry.attachments.MovementData;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.tangwenjun.dragonbarrelroll.api.RollEntity;
+import com.tangwenjun.dragonbarrelroll.api.DragonRoll;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
 import com.tangwenjun.dragonbarrelroll.net.SyncDragonRoll;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +34,7 @@ public abstract class PassengerAttachmentMixin {
             method = "getPassengerAttachmentPoint(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/EntityDimensions;F)Lnet/minecraft/world/phys/Vec3;",
             at = @At("HEAD")
     )
-    private void doABarrelRoll$clearPrevZRot(Entity passenger, EntityDimensions dimensions,
+    private void dragon_barrel_roll$clearPrevZRot(Entity passenger, EntityDimensions dimensions,
                                              float partialTicks, CallbackInfoReturnable<Vec3> cir) {
         Entity mount = (Entity) (Object) this;
         if (!(mount instanceof Player dragonPlayer)) return;
@@ -43,7 +43,7 @@ public abstract class PassengerAttachmentMixin {
 
         float rollDeg;
         if (dragonPlayer.level().isClientSide()) {
-            rollDeg = ((RollEntity) dragonPlayer).doABarrelRoll$getRoll();
+            rollDeg = ((DragonRoll) dragonPlayer).dragon_barrel_roll$getRoll();
         } else {
             rollDeg = SyncDragonRoll.getSyncedRollDeg(dragonPlayer.getId());
         }
@@ -60,7 +60,7 @@ public abstract class PassengerAttachmentMixin {
             method = "getPassengerAttachmentPoint(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/EntityDimensions;F)Lnet/minecraft/world/phys/Vec3;",
             at = @At("RETURN")
     )
-    private Vec3 doABarrelRoll$applyBarrelRoll(Vec3 original,
+    private Vec3 dragon_barrel_roll$applyBarrelRoll(Vec3 original,
                                                @Local(argsOnly = true, index = 0) Entity passenger) {
         Entity mount = (Entity) (Object) this;
         if (!(mount instanceof Player dragonPlayer)) return original;
@@ -71,7 +71,7 @@ public abstract class PassengerAttachmentMixin {
 
         float rollDeg;
         if (dragonPlayer.level().isClientSide()) {
-            rollDeg = ((RollEntity) dragonPlayer).doABarrelRoll$getRoll();
+            rollDeg = ((DragonRoll) dragonPlayer).dragon_barrel_roll$getRoll();
         } else {
             rollDeg = SyncDragonRoll.getSyncedRollDeg(dragonPlayer.getId());
         }

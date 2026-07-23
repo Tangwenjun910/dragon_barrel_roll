@@ -8,68 +8,75 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Stores Dragon BR's roll state on Player with UNIQUE field names
+ * that do NOT conflict with DABR's fields (isRolling/prevRoll/roll).
+ * <p>
+ * Implements {@link com.tangwenjun.dragonbarrelroll.api.DragonRoll} using
+ * the renamed fields. DABR's RollEntity interface is completely separate.
+ */
 @Mixin(Player.class)
 public abstract class PlayerEntityMixin extends LivingEntityMixin {
     @Unique
-    protected boolean isRolling;
+    protected boolean dragon_barrel_roll$isRolling;
     @Unique
-    protected float prevRoll;
+    protected float dragon_barrel_roll$prevRoll;
     @Unique
-    protected float roll;
+    protected float dragon_barrel_roll$roll;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("do_a_barrel_roll");
+    private static final Logger LOGGER = LoggerFactory.getLogger("dragon_barrel_roll");
 
     @Override
-    protected void doABarrelRoll$baseTickTail(CallbackInfo ci) {
-        doABarrelRoll$baseTickTail2();
+    protected void dragon_barrel_roll$baseTickTail(CallbackInfo ci) {
+        dragon_barrel_roll$baseTickTail2();
 
-        prevRoll = doABarrelRoll$getRoll();
+        dragon_barrel_roll$prevRoll = dragon_barrel_roll$getRoll();
 
-        if (!doABarrelRoll$isRolling()) {
-            doABarrelRoll$setRoll(0.0f);
+        if (!dragon_barrel_roll$isRolling()) {
+            dragon_barrel_roll$setRoll(0.0f);
         }
     }
 
     @Unique
-    protected void doABarrelRoll$baseTickTail2() {
+    protected void dragon_barrel_roll$baseTickTail2() {
     }
 
     @Override
-    public boolean doABarrelRoll$isRolling() {
-        return isRolling;
+    public boolean dragon_barrel_roll$isRolling() {
+        return dragon_barrel_roll$isRolling;
     }
 
     @Override
-    public void doABarrelRoll$setRolling(boolean rolling) {
-        isRolling = rolling;
+    public void dragon_barrel_roll$setRolling(boolean rolling) {
+        dragon_barrel_roll$isRolling = rolling;
     }
 
     @Override
-    public float doABarrelRoll$getRoll() {
-        return roll;
+    public float dragon_barrel_roll$getRoll() {
+        return dragon_barrel_roll$roll;
     }
 
     @Override
-    public float doABarrelRoll$getRoll(float tickDelta) {
+    public float dragon_barrel_roll$getRoll(float tickDelta) {
         if (tickDelta == 1.0f) {
-            return doABarrelRoll$getRoll();
+            return dragon_barrel_roll$getRoll();
         }
-        return Mth.lerp(tickDelta, prevRoll, doABarrelRoll$getRoll());
+        return Mth.lerp(tickDelta, dragon_barrel_roll$prevRoll, dragon_barrel_roll$getRoll());
     }
 
     @Override
-    public void doABarrelRoll$setRoll(float roll) {
+    public void dragon_barrel_roll$setRoll(float roll) {
         if (!Float.isFinite(roll)) {
             LOGGER.error("Invalid entity rotation: " + roll + ", discarding.");
             return;
         }
-        var lastRoll = doABarrelRoll$getRoll();
-        this.roll = roll;
+        var lastRoll = dragon_barrel_roll$getRoll();
+        this.dragon_barrel_roll$roll = roll;
 
         if (roll < -90 && lastRoll > 90) {
-            prevRoll -= 360;
+            dragon_barrel_roll$prevRoll -= 360;
         } else if (roll > 90 && lastRoll < -90) {
-            prevRoll += 360;
+            dragon_barrel_roll$prevRoll += 360;
         }
     }
 }

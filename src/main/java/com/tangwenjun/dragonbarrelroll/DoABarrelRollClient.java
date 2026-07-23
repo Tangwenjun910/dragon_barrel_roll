@@ -22,6 +22,9 @@ public class DoABarrelRollClient {
     public static final RollGroup FALL_FLYING_GROUP = RollGroup.of(DoABarrelRoll.id("fall_flying"));
 
     public static void init(ModContainer container) {
+        // Dragon BR always runs its full pipeline.
+        // When DABR is also installed, DABRMixinCanceller cancels DABR's
+        // conflicting mixins so there are no field/method/interface collisions.
         FALL_FLYING_GROUP.trueIf(DoABarrelRollClient::isFallFlying);
 
         // Keyboard modifiers
@@ -90,11 +93,8 @@ public class DoABarrelRollClient {
         boolean isGliding = ServerFlightHandler.isGliding(player);
         boolean isHovering = !isGliding;
 
-        if ((isHovering && ModConfig.INSTANCE.enableHoverRoll.get()) ||
-            (isGliding && ModConfig.INSTANCE.enableGlideRoll.get())) {
-            return true;
-        }
-        return false;
+        return (isHovering && ModConfig.INSTANCE.enableHoverRoll.get())
+                || (isGliding && ModConfig.INSTANCE.enableGlideRoll.get());
     }
 
     public static boolean isConnectedToRealms() {

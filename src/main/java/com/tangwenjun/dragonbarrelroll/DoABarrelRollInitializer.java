@@ -11,6 +11,7 @@ public class DoABarrelRollInitializer {
         DoABarrelRoll.init();
 
         if (FMLLoader.getDist().isClient()) {
+            DoABarrelRoll.LOGGER.info("Dragon Barrel Roll initializing (NeoForge 1.21.1)...");
             DoABarrelRollClient.init(container);
         }
 

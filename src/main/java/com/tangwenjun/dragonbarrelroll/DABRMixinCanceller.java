@@ -5,9 +5,14 @@ import com.bawnorton.mixinsquared.tools.MixinAnnotationReader;
 
 import java.util.List;
 
+/**
+ * Cancels Equipment Compare's overly invasive KeyMapping mixin.
+ * <p>
+ * No longer cancels DABR's mixins — Dragon BR uses its own DragonRoll interface
+ * with unique method names (dragon_barrel_roll$ prefix), so both mods' mixins
+ * can coexist on the same target classes without field/method conflicts.
+ */
 public class DABRMixinCanceller implements MixinCanceller {
-//    public static final String GAME_RENDERER_CLASSNAME = FabricLoader.getInstance().getMappingResolver()
-//                .mapClassName("intermediary", "net.minecraft.class_757").replace('.', '/');
 
     @Override
     public boolean shouldCancel(List<String> targetClassNames, String mixinClassName) {
@@ -16,9 +21,6 @@ public class DABRMixinCanceller implements MixinCanceller {
             DoABarrelRoll.LOGGER.warn("If the author of Equipment Compare is reading this: see #31 on your github. Once the issue is resolved, you can set the priority of this mixin to anything other than 1000 to stop it being disabled.");
             return true;
         }
-//        if (targetClassNames.contains(GAME_RENDERER_CLASSNAME) && !mixinClassName.contains("doabarrelroll")) {
-//            DoABarrelRoll.LOGGER.warn("Found mixin targeting GameRenderer. If this is done to modify matrices, it might create incompatibilities. Mixin classname: {}", mixinClassName);
-//        }
         return false;
     }
 }

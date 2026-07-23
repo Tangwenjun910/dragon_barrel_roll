@@ -12,6 +12,6 @@ public abstract class LivingEntityMixin extends EntityMixin {
             method = "baseTick",
             at = @At("TAIL")
     )
-    protected void doABarrelRoll$baseTickTail(CallbackInfo ci) {
+    protected void dragon_barrel_roll$baseTickTail(CallbackInfo ci) {
     }
 }

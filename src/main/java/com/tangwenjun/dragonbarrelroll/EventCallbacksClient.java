@@ -3,15 +3,12 @@ package com.tangwenjun.dragonbarrelroll;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.DeltaTracker;
-import com.tangwenjun.dragonbarrelroll.api.RollEntity;
-import com.tangwenjun.dragonbarrelroll.api.RollMouse;
+import com.tangwenjun.dragonbarrelroll.api.DragonRoll;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
 import com.tangwenjun.dragonbarrelroll.impl.key.InputContextImpl;
 import com.tangwenjun.dragonbarrelroll.net.SyncDragonRoll;
 import com.tangwenjun.dragonbarrelroll.render.HorizonLineWidget;
-import com.tangwenjun.dragonbarrelroll.render.MomentumCrosshairWidget;
 import net.neoforged.neoforge.network.PacketDistributor;
-import org.joml.Vector2d;
 
 public class EventCallbacksClient {
     private static int syncTickCounter;
@@ -60,7 +57,7 @@ public class EventCallbacksClient {
         if (syncTickCounter < 2) return;
         syncTickCounter = 0;
 
-        float roll = ((RollEntity) player).doABarrelRoll$getRoll();
+        float roll = ((DragonRoll) player).dragon_barrel_roll$getRoll();
         float pitch = player.getXRot();
         float yaw = player.getYRot();
 
@@ -77,17 +74,16 @@ public class EventCallbacksClient {
 
         var matrices = context.pose();
         var entity = Minecraft.getInstance().getCameraEntity();
+        var rollEntity = (DragonRoll) entity;
         if (entity != null) {
-            var rollEntity = (RollEntity) entity;
             if (ModConfig.INSTANCE.getShowHorizon()) {
                 HorizonLineWidget.render(matrices, scaledWidth, scaledHeight,
-                        rollEntity.doABarrelRoll$getRoll(tickDelta), entity.getViewVector(tickDelta).x);
+                        rollEntity.dragon_barrel_roll$getRoll(tickDelta), entity.getViewVector(tickDelta).x);
             }
 
             if (ModConfig.INSTANCE.getMomentumBasedMouse() && ModConfig.INSTANCE.getShowMomentumWidget()) {
-                var rollMouse = (RollMouse) Minecraft.getInstance().mouseHandler;
-
-                MomentumCrosshairWidget.render(matrices, scaledWidth, scaledHeight, new Vector2d(rollMouse.doABarrelRoll$getMouseTurnVec()));
+                // Momentum crosshair disabled in this version due to RollMouse interface removal.
+                // The turn vector is private to MouseMixin and inaccessible from here.
             }
         }
     }

@@ -2,7 +2,7 @@ package com.tangwenjun.dragonbarrelroll.mixin.client.roll;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.tangwenjun.dragonbarrelroll.api.RollEntity;
+import com.tangwenjun.dragonbarrelroll.api.DragonRoll;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
 import com.tangwenjun.dragonbarrelroll.net.SyncDragonRoll;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -35,13 +35,13 @@ public abstract class PlayerEntityRendererMixin {
             ),
             index = 0
     )
-    private Quaternionf doABarrelRoll$modifyRoll(Quaternionf original,
+    private Quaternionf dragon_barrel_roll$modifyRoll(Quaternionf original,
                                                  @Local(argsOnly = true) AbstractClientPlayer player,
                                                  @Local(argsOnly = true, ordinal = 2) float tickDelta) {
-        var rollEntity = (RollEntity) player;
+        var rollEntity = (DragonRoll) player;
 
-        if (rollEntity.doABarrelRoll$isRolling()) {
-            var roll = rollEntity.doABarrelRoll$getRoll(tickDelta);
+        if (rollEntity.dragon_barrel_roll$isRolling()) {
+            var roll = rollEntity.dragon_barrel_roll$getRoll(tickDelta);
             return new Quaternionf().rotateY((float) Math.toRadians(roll));
         }
 
@@ -64,7 +64,7 @@ public abstract class PlayerEntityRendererMixin {
                      target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;setupRotations(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;FFFF)V",
                      ordinal = 2,
                      shift = At.Shift.AFTER))
-    private void doABarrelRoll$applyRiderTilt(AbstractClientPlayer player,
+    private void dragon_barrel_roll$applyRiderTilt(AbstractClientPlayer player,
                                                PoseStack poseStack,
                                                float bob, float yBodyRot,
                                                float partialTick, float scale,
@@ -77,9 +77,9 @@ public abstract class PlayerEntityRendererMixin {
         float syncedRoll = SyncDragonRoll.getSyncedRollDeg(dragonPlayer.getId());
         float syncedPitch = SyncDragonRoll.getSyncedPitch(dragonPlayer.getId());
         if (dragonPlayer instanceof LocalPlayer local) {
-            var rollEntity = (RollEntity) local;
-            if (rollEntity.doABarrelRoll$isRolling()) {
-                syncedRoll = rollEntity.doABarrelRoll$getRoll();
+            var rollEntity = (DragonRoll) local;
+            if (rollEntity.dragon_barrel_roll$isRolling()) {
+                syncedRoll = rollEntity.dragon_barrel_roll$getRoll();
                 syncedPitch = local.getXRot();
             }
         }

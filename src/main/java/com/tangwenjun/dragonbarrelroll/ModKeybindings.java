@@ -5,6 +5,7 @@ import net.minecraft.client.KeyMapping;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.network.chat.Component;
 import com.tangwenjun.dragonbarrelroll.api.key.InputContext;
+import com.tangwenjun.dragonbarrelroll.compat.DABRCompatPlugin;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,7 +21,7 @@ public class ModKeybindings {
     public static final KeyMapping TOGGLE_ENABLED = new KeyMapping(
             "key.dragon_barrel_roll.toggle_enabled",
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_I,
+            GLFW.GLFW_KEY_O,
             "category.dragon_barrel_roll.dragon_barrel_roll"
     );
     public static final KeyMapping OPEN_CONFIG = new KeyMapping(
@@ -78,18 +79,23 @@ public class ModKeybindings {
             ROLL_RIGHT
     );
 
-    public static final InputContext CONTEXT = InputContext.of(
-            DoABarrelRoll.id("fall_flying"),
-            DoABarrelRollClient.FALL_FLYING_GROUP
-    );
+    public static final InputContext CONTEXT;
 
     static {
-        CONTEXT.addKeyBinding(PITCH_UP);
-        CONTEXT.addKeyBinding(PITCH_DOWN);
-        CONTEXT.addKeyBinding(YAW_LEFT);
-        CONTEXT.addKeyBinding(YAW_RIGHT);
-        CONTEXT.addKeyBinding(ROLL_LEFT);
-        CONTEXT.addKeyBinding(ROLL_RIGHT);
+        if (!DABRCompatPlugin.DABR_LOADED) {
+            CONTEXT = InputContext.of(
+                    DoABarrelRoll.id("fall_flying"),
+                    DoABarrelRollClient.FALL_FLYING_GROUP
+            );
+            CONTEXT.addKeyBinding(PITCH_UP);
+            CONTEXT.addKeyBinding(PITCH_DOWN);
+            CONTEXT.addKeyBinding(YAW_LEFT);
+            CONTEXT.addKeyBinding(YAW_RIGHT);
+            CONTEXT.addKeyBinding(ROLL_LEFT);
+            CONTEXT.addKeyBinding(ROLL_RIGHT);
+        } else {
+            CONTEXT = null;
+        }
     }
 
     @SubscribeEvent
