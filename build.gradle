@@ -43,7 +43,7 @@ repositories {
 }
 
 base {
-    archivesName = mod_id
+    archivesName = mod_id+"-26.1"
 }
 
 // NeoForge 26.1.2 requires Java 25
