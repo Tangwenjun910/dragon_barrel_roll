@@ -11,12 +11,16 @@ import java.util.Set;
 /**
  * MixinPlugin that detects whether the original Do A Barrel Roll mod is installed.
  * <p>
- * When DABR is present, Dragon BR's {@link com.tangwenjun.dragonbarrelroll.DABRMixinCanceller}
- * cancels DABR's conflicting mixins so that Dragon BR's full barrel roll pipeline
- * handles ALL flight (both dragon and elytra) without field/method/interface collisions.
+ * When DABR is present, Dragon Barrel Roll keeps full control over dragon flight.
+ * DABR itself is still allowed to manage human/elytra flight. DragonSurvival's
+ * native DABR dragon compatibility is disabled by {@code DoABarrelRollCompatMixin},
+ * so DABR is never told that a dragon is elytra-flying.
  * <p>
- * This plugin always applies all Dragon BR mixins. The conflict resolution
- * is done via MixinSquared's MixinCanceller, not by disabling our own mixins.
+ * The only Dragon Barrel Roll mixins disabled in DABR mode are the KeyBinding
+ * mixins, because both mods would otherwise try to implement the same
+ * {@code ContextualKeyBinding} interface on {@code KeyMapping}. Dragon Barrel Roll's
+ * movement keys are read directly via {@code KeyMapping.isDown()}, so they still
+ * work for dragon flight.
  */
 public class DABRCompatPlugin implements IMixinConfigPlugin {
 
@@ -31,15 +35,14 @@ public class DABRCompatPlugin implements IMixinConfigPlugin {
         DABR_LOADED = modFile != null;
 
         if (DABR_LOADED) {
-            DoABarrelRoll.LOGGER.info("Do A Barrel Roll detected! Dragon Barrel Roll will run in compatibility mode.");
-            DoABarrelRoll.LOGGER.info("DABR conflicting mixins cancelled — Dragon BR handles all barrel roll mechanics.");
+            DoABarrelRoll.LOGGER.info("Do A Barrel Roll detected! Dragon Barrel Roll will manage dragon flight; DABR remains for human/elytra flight.");
         } else {
             DoABarrelRoll.LOGGER.info("Do A Barrel Roll not detected. Dragon Barrel Roll running in standalone mode.");
         }
     }
 
-    // KeyBinding mixins that should be disabled in compat mode
-    // because DABR's KeyBinding system handles context-sensitive keys for both mods
+    // KeyBinding mixins that should be disabled in DABR mode
+    // because DABR's KeyBinding system provides the same ContextualKeyBinding interface.
     private static final Set<String> COMPAT_DISABLED_KEY_MIXINS = Set.of(
             "KeyBindingMixin",
             "KeyBindingAccessor",
@@ -52,15 +55,14 @@ public class DABRCompatPlugin implements IMixinConfigPlugin {
             return true;
         }
 
-        // In compat mode, disable Dragon BR's KeyBinding mixins.
+        // In DABR mode, disable Dragon Barrel Roll's KeyBinding mixins.
         // DABR's KeyBindingMixin provides the ContextualKeyBinding interface.
-        // Dragon BR's KeyBindingMixin would conflict (same WrapOperation targets,
-        // same @Unique fields). DABR's system handles context-sensitive keys
-        // for both mods — Dragon BR's movement keys work without our own
-        // KeyBinding mixins because buttonControls reads their isDown() directly.
+        // Dragon Barrel Roll's KeyBindingMixin would conflict (same WrapOperation targets,
+        // same @Unique fields). Dragon Barrel Roll's movement keys still work because
+        // buttonControls reads their isDown() directly.
         String simpleName = mixinClassName.substring(mixinClassName.lastIndexOf('.') + 1);
         if (COMPAT_DISABLED_KEY_MIXINS.contains(simpleName)) {
-            DoABarrelRoll.LOGGER.debug("DABR compat: Skipping Dragon BR KeyBinding mixin '{}'", simpleName);
+            DoABarrelRoll.LOGGER.debug("DABR compat: Skipping Dragon Barrel Roll KeyBinding mixin '{}'", simpleName);
             return false;
         }
 

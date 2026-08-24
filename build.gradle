@@ -161,7 +161,7 @@ dependencies {
     }
 
     // DragonSurvival
-    implementation files('libs/DragonSurvival-1.21.1-v2.0.54-29.04.2026-all.jar')
+    implementation files('libs/DragonSurvival-1.21.1-v2.0.66-23.08.2026-all.jar')
     implementation files('libs/geckolib-neoforge-1.21.1-4.8.4.jar')
 }
 

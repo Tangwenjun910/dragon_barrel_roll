@@ -12,6 +12,7 @@
   ],
   "client": [
     "PassengerAttachmentMixin",
+    "client.DoABarrelRollCompatMixin",
     "client.DragonRendererMixin",
     "client.InGameHudMixin",
     "client.key.KeyBindingAccessor",

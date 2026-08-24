@@ -1,12 +1,13 @@
 package com.tangwenjun.dragonbarrelroll.mixin.client;
 
 import by.dragonsurvivalteam.dragonsurvival.client.render.entity.dragon.DragonRenderer;
-import by.dragonsurvivalteam.dragonsurvival.common.capability.DragonStateProvider;
 import by.dragonsurvivalteam.dragonsurvival.common.entity.DragonEntity;
-import by.dragonsurvivalteam.dragonsurvival.registry.attachments.FlightData;
+import by.dragonsurvivalteam.dragonsurvival.compat.do_a_barrel_roll.DoABarrelRollCompat;
+import by.dragonsurvivalteam.dragonsurvival.server.handlers.ServerFlightHandler;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.tangwenjun.dragonbarrelroll.api.DragonRoll;
 import com.tangwenjun.dragonbarrelroll.config.ModConfig;
 import com.tangwenjun.dragonbarrelroll.net.SyncDragonRoll;
 import com.tangwenjun.dragonbarrelroll.util.MountingBoneTracker;
@@ -23,47 +24,74 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 @Mixin(DragonRenderer.class)
 public class DragonRendererMixin {
 
-    @Inject(method = "setupRender", at = @At("HEAD"), remap = false)
-    private void applyDaBRFullFlight(DragonEntity dragon, Player player, PoseStack poseStack, float partialTick, CallbackInfo ci) {
-        if (!ModConfig.INSTANCE.enableMod.get()) return;
-        if (ModConfig.INSTANCE.getUseVanillaVisuals() && !player.getPassengers().isEmpty()) return;
+    /**
+     * DragonSurvival only applies the DABR-style pitch/roll while gliding.
+     * Since Dragon Barrel Roll also supports hover, allow the same branch to run
+     * whenever our roll system is active.
+     */
+    @ModifyExpressionValue(
+            method = "setupRender",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lby/dragonsurvivalteam/dragonsurvival/server/handlers/ServerFlightHandler;isGliding(Lnet/minecraft/world/entity/player/Player;)Z",
+                    remap = false
+            ),
+            remap = false
+    )
+    private boolean dragon_barrel_roll$allowHoverRoll(boolean original, @Local(argsOnly = true) Player player) {
+        return original || DoABarrelRollCompat.isActive(player);
+    }
 
-        if (player instanceof LocalPlayer localPlayer) {
-            // === Local player: read live roll/pitch from RollEntity interface ===
-            if (!DragonStateProvider.isDragon(localPlayer)) {
-                return;
-            }
-
-            FlightData data = FlightData.getData(localPlayer);
-            if (data == null || !data.isWingsSpread() || !data.hasFlight() || localPlayer.onGround()) {
-                return;
-            }
-
-            if (ModConfig.INSTANCE.syncRoll.get()) {
-                float rollDeg = ((DragonRoll) localPlayer).dragon_barrel_roll$getRoll(partialTick);
-                dragon.prevZRot = (float) Math.toRadians(rollDeg);
-            }
-
-            if (ModConfig.INSTANCE.syncPitch.get()) {
-                dragon.prevXRot = -localPlayer.getXRot();
-            }
-        } else {
-            // === Remote player: read from synced barrel roll data (stored independently from DS MovementData) ===
-            int pid = player.getId();
-            float syncedRoll = SyncDragonRoll.getSyncedRollDeg(pid);
-            float syncedPitch = SyncDragonRoll.getSyncedPitch(pid);
-
-            if (syncedRoll == 0f && syncedPitch == 0f) {
-                return;  // No barrel roll data synced for this player
-            }
-
-            if (ModConfig.INSTANCE.syncRoll.get()) {
-                dragon.prevZRot = (float) Math.toRadians(syncedRoll);  // syncedRoll is in degrees
-            }
-            if (ModConfig.INSTANCE.syncPitch.get()) {
-                dragon.prevXRot = -syncedPitch;  // negate pitch to match DS convention
-            }
+    /**
+     * Respect the "sync pitch to dragon model" option and feed the correct pitch
+     * into DragonSurvival's DABR-style branch.
+     * <p>
+     * setupRender does '-player.getViewXRot(partialTick)', so:
+     * - local player: original view pitch is already the barrel-roll pitch
+     * - remote player: use the synced pitch so other players see the same tilt
+     * - when syncPitch is disabled: keep DragonSurvival's own pitch value
+     */
+    @ModifyExpressionValue(
+            method = "setupRender",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;getViewXRot(F)F"
+            ),
+            remap = false
+    )
+    private float dragon_barrel_roll$respectSyncPitch(float original,
+                                                      @Local(argsOnly = true) DragonEntity dragon,
+                                                      @Local(argsOnly = true) Player player) {
+        if (!ModConfig.INSTANCE.syncPitch.get()) {
+            return -dragon.prevXRot;
         }
+
+        if (player instanceof LocalPlayer) {
+            return original;
+        }
+
+        return SyncDragonRoll.getSyncedPitch(player.getId());
+    }
+
+    /**
+     * Respect the "sync roll to dragon model" option. When disabled, keep using
+     * DragonSurvival's own roll value instead of the barrel-roll roll.
+     */
+    @ModifyExpressionValue(
+            method = "setupRender",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lby/dragonsurvivalteam/dragonsurvival/compat/do_a_barrel_roll/DoABarrelRollCompat;getRollRadians(Lnet/minecraft/world/entity/player/Player;F)F",
+                    remap = false
+            ),
+            remap = false
+    )
+    private float dragon_barrel_roll$respectSyncRoll(float original,
+                                                     @Local(argsOnly = true) DragonEntity dragon) {
+        if (!ModConfig.INSTANCE.syncRoll.get()) {
+            return dragon.prevZRot;
+        }
+        return original;
     }
 
     /**
@@ -87,5 +115,4 @@ public class DragonRendererMixin {
             }
         });
     }
-
 }

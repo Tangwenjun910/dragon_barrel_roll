@@ -8,9 +8,10 @@ import java.util.List;
 /**
  * Cancels Equipment Compare's overly invasive KeyMapping mixin.
  * <p>
- * No longer cancels DABR's mixins — Dragon BR uses its own DragonRoll interface
- * with unique method names (dragon_barrel_roll$ prefix), so both mods' mixins
- * can coexist on the same target classes without field/method conflicts.
+ * This intentionally does not cancel DABR's mixins. Dragon Barrel Roll prevents
+ * DABR from taking over dragon flight by disabling DragonSurvival's native
+ * DABR dragon compatibility ({@code DoABarrelRollCompat#shouldEnableDragonFlight}),
+ * not by removing DABR's mixins. DABR remains fully functional for human/elytra flight.
  */
 public class DABRMixinCanceller implements MixinCanceller {
 

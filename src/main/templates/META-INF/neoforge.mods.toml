@@ -35,7 +35,7 @@ Adds barrel roll flight mechanics to Dragon Survival — pitch, yaw, and roll fr
 [[dependencies.${mod_id}]]
     modId="dragonsurvival"
     type="required"
-    versionRange="[2.0.45,)"
+    versionRange="[2.0.66,)"
     mandatory=true
     ordering="BEFORE"
     side="BOTH"
