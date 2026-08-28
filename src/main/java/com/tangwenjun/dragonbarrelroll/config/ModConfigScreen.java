@@ -277,8 +277,7 @@ public class ModConfigScreen extends Screen {
 
     private void rebuildScreen() {
         double saved = scrollOffset;
-        this.renderables.clear();
-        this.children().clear();
+        clearWidgets();
         init();
         scrollOffset = Math.max(-Math.max(0, contentHeight - (clipBottom - CLIP_TOP)),
                 Math.min(0, saved));

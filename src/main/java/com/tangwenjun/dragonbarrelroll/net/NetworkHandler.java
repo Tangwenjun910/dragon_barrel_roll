@@ -1,6 +1,5 @@
 package com.tangwenjun.dragonbarrelroll.net;
 
-import com.tangwenjun.dragonbarrelroll.DoABarrelRoll;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
@@ -15,9 +14,10 @@ public class NetworkHandler {
     }
 
     private static void registerPayloads(final RegisterPayloadHandlersEvent event) {
-        PayloadRegistrar registrar = event.registrar(DoABarrelRoll.MODID).versioned("1");
+        PayloadRegistrar registrar = event.registrar("1");
 
         // Bidirectional: client→server (store+broadcast), server→client (store for rendering)
+        // NeoForge 26.1 order: server handler first, client handler second.
         registrar.playBidirectional(
                 SyncDragonRoll.TYPE,
                 SyncDragonRoll.STREAM_CODEC,

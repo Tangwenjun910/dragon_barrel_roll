@@ -97,6 +97,9 @@ public class ModKeybindings {
 
     @SubscribeEvent
     public static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        event.registerCategory(CATEGORY);
+        event.registerCategory(CATEGORY_MOVEMENT);
+
         for (KeyMapping keyMapping : ALL) {
             event.register(keyMapping);
         }
@@ -121,3 +124,4 @@ public class ModKeybindings {
         }
     }
 }
+

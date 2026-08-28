@@ -7,13 +7,14 @@ import com.mojang.blaze3d.platform.DestFactor;
 import com.mojang.blaze3d.platform.SourceFactor;
 import java.util.function.BiConsumer;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterRenderPipelinesEvent;
-import net.minecraft.client.renderer.RenderPipelines;
 import com.tangwenjun.dragonbarrelroll.DoABarrelRoll;
 
-@EventBusSubscriber(modid = DoABarrelRoll.MODID)
+@EventBusSubscriber(modid = DoABarrelRoll.MODID, value = Dist.CLIENT)
 public class RenderHelper {
     public static RenderPipeline INVERTED;
 
