@@ -1,25 +1,113 @@
+# Dragon Barrel Roll（龙桶滚）
 
-Installation information
-=======
+为《龙之生存》（Dragon Survival）添加桶滚飞行机制——俯仰、偏航、滚转，像战斗机一样自由飞翔。  
+Adds barrel roll flight mechanics to Dragon Survival — pitch, yaw, and roll freely like a fighter jet.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+> **支持版本 / Supported versions**  
+> Minecraft 26.1.2 · NeoForge 26.1.2.78+ · DragonSurvival 2.1.2+
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+---
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+## 特性 / Features
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+- 为龙之生存的龙飞行加入完整的桶滚操控：**俯仰（Pitch）、偏航（Yaw）、滚转（Roll）**。
+- 鼠标与键盘混合操控，支持自定义按键。
+- 可选的**动量鼠标（Momentum Mouse）**输入模式与**动量准星指示器（Momentum Crosshair）**。
+- 滚转、俯仰、偏航可同步到龙模型，并在多人游戏中同步给其他玩家。
+- 飞行物理增强：**倾斜（Banking）**、**平滑（Smoothing）**、**自动回正（Auto Righting）**、**模拟舵面效能（Control Surface Efficacy）**。
+- HUD 地平线指示器（Horizon Line）。
+- 内置配置界面，支持中文与英文。
+- 直接为龙飞行提供桶滚能力，不依赖原版 Do A Barrel Roll（DABR）。
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+---
+
+## 环境要求 / Requirements
+
+| 项目 | 要求 |
+| --- | --- |
+| Minecraft | 26.1.2 |
+| NeoForge | 26.1.2.78+ |
+| DragonSurvival（龙之生存） | 2.1.2+ |
+
+> 多人游戏需要在**客户端和服务器**都安装本模组，才能正常同步龙飞行姿态。
+
+---
+
+## 安装 / Installation
+
+1. 安装对应版本的 Minecraft、NeoForge 与 DragonSurvival。
+2. 将 `dragon_barrel_roll` 的 jar 文件放入游戏目录的 `mods` 文件夹。
+3. 启动游戏即可。
+
+---
+
+## 使用说明 / Usage
+
+1. 成为龙并展开翅膀进入飞行状态。
+2. 默认情况下，**滑翔（冲刺飞行）时启用桶滚**；悬停（非冲刺飞行）时需要在配置中开启“悬停桶滚”。
+3. 使用鼠标控制**俯仰**和**滚转**，使用 **A / D** 控制**偏航**。
+4. 按 **I** 可快速切换整个模组的启用状态。
+5. 在“选项 → 控制 → 龙桶滚”或“Mod 设置”中修改按键与配置。
+
+### 默认按键 / Default Keybinds
+
+| 功能 | 默认按键 |
+| --- | --- |
+| 切换启用 / Toggle Enabled | `I` |
+| 打开配置 / Open Config | 未绑定 |
+| 俯仰向上 / Pitch Up | 未绑定 |
+| 俯仰向下 / Pitch Down | 未绑定 |
+| 偏航向左 / Yaw Left | `A` |
+| 偏航向右 / Yaw Right | `D` |
+| 滚转向左 / Roll Left | 未绑定 |
+| 滚转向右 / Roll Right | 未绑定 |
+| 鼠标 / Mouse | 俯仰 + 滚转（可在配置中交换滚转与偏航） |
+
+> “未绑定”的按键可以到游戏的控制设置中自行指定。
+
+---
+
+## 配置 / Configuration
+
+- 配置界面：通过“Mod 设置”或绑定的“打开配置”按键打开。
+- 配置文件：`config/dragon_barrel_roll-client.toml`
+
+### 常用配置项 / Common Options
+
+| 配置项 | 说明 | 默认值 |
+| --- | --- | --- |
+| 启用模组 / Enable Mod | 整个模组的总开关 | 开启 |
+| 悬停桶滚 / Hover Barrel Roll | 允许在悬停（非冲刺飞行）时桶滚 | 关闭 |
+| 滑翔桶滚 / Glide Barrel Roll | 允许在滑翔（冲刺飞行）时桶滚 | 开启 |
+| 模型同步 / Model Sync | 将滚转/俯仰/偏航同步到龙模型 | 开启 |
+| 骑乘时禁用模型倾斜 | 携带乘客时龙模型、骑乘者、骑乘点不跟随倾斜，仅保留第一人称滚转 | 开启 |
+| 交换滚转/偏航 | 开启后鼠标横向移动改为控制偏航，滚转交给按键 | 关闭 |
+| 反转俯仰 / Invert Pitch | 反转俯仰方向 | 关闭 |
+| 动量鼠标 / Momentum Mouse | 使用基于动量的鼠标输入 | 关闭 |
+| 动量死区 / Momentum Deadzone | 动量鼠标输入的死区范围 | 0.2 |
+| 显示动量指示器 / Show Momentum Widget | 显示动量准星指示器 | 开启 |
+| 水下禁用 / Disable Underwater | 在水下时禁用模组效果 | 开启 |
+| 显示地平线 / Show Horizon | 显示地平线指示器 | 关闭 |
+| 启用倾斜效果 / Enable Banking | 飞行时加入倾斜效果 | 开启 |
+| 倾斜强度 / Banking Strength | 倾斜效果强度倍率 | 20.0 |
+| 模拟舵面效能 | 基于速度模拟控制面效能 | 关闭 |
+| 自动回正 / Auto Righting | 未主动滚转时自动回正 | 关闭 |
+| 回正力度 / Righting Strength | 自动回正力度 | 50.0 |
+| 平滑度 / Smoothing | 俯仰 / 偏航 / 滚转平滑系数 | 1.0 / 2.5 / 1.0 |
+| 键盘灵敏度 / Desktop Sensitivity | 键盘俯仰 / 偏航 / 滚转灵敏度（度/秒） | 1.0 / 0.4 / 1.0 |
+| 手柄灵敏度 / Controller Sensitivity | 手柄俯仰 / 偏航 / 滚转灵敏度（度/秒） | 1.0 / 0.4 / 1.0 |
+| 高级公式 / Advanced Formulas | 倾斜、升降舵、副翼、方向舵等公式（专家向） | 默认公式 |
+
+---
+
+## 兼容性 / Compatibility
+
+- 必须安装 **DragonSurvival 2.1.2+**。
+- 本模组为龙飞行提供独立的桶滚状态，**不需要安装原版 Do A Barrel Roll（DABR）**。
+- 多人联机时，客户端与服务器都需要安装本模组，以保证网络通道和飞行姿态同步正常工作。
+
+---
+
+## 许可证 / License
+
+本项目基于 **GPL-3.0** 许可证发布。
